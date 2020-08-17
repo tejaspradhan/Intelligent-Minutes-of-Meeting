@@ -1,26 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Aug 16 19:07:49 2020
-
-@author: shrir
-"""
-
-
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import sent_tokenize
 from nltk.stem import PorterStemmer
 
 def create_frequency_table(text_string) -> dict:
-    
-    """
-    input:  a paragraph as text_string
-    process: tokenize text into words, stem words, remove stopwords
-    output: a bag of word dictionary {word: frequency}
-    
-    Note: customized weight of word could be applied
-    """
-
     stopWords = set(stopwords.words("english"))
     
     words = word_tokenize(text_string)
@@ -39,14 +22,7 @@ def create_frequency_table(text_string) -> dict:
 
     return freqTable
 
-def score_sentences(sentences, freqTable) -> dict:
-    
-    """
-    input:  list of sentences and word frequency table
-    process: compute score for each sentence = total word value / word count
-    output: a sentence soore dictionary {sentence: score}
-    
-    """   
+def score_sentences(sentences, freqTable) -> dict: 
     sentenceValue = dict()
 
     for sentence in sentences:
@@ -64,13 +40,6 @@ def score_sentences(sentences, freqTable) -> dict:
 
 
 def find_average_score(sentenceValue) -> int:
-    """
-    input:  sentence score dictionary
-    process: compute average sentence score = total sentence score / sentence number
-    output: avreage sentence score as threshold
-    
-    Note: the computation ov average score can be customized / weighted
-    """
     sumValues = 0
     for entry in sentenceValue:
         sumValues += sentenceValue[entry]
@@ -81,13 +50,6 @@ def find_average_score(sentenceValue) -> int:
     return average
 
 def generate_summary(sentences, sentenceValue, threshold) -> str:
-    
-    """
-    input:  list of sentences, sentence value dictionary
-    
-    output: sentence whose score > threshold as the summary
-    
-    """
     sentence_count = 0
     summary = ''
 
@@ -100,13 +62,7 @@ def generate_summary(sentences, sentenceValue, threshold) -> str:
 
 
 def summarize_text_wf(text) -> str:
-     
-    """
-    input:  a paragraph of text
-    
-    output: summary of text according to word frequency algorithm
-    
-    """
+
     freq_table = create_frequency_table(text)
     sent = sent_tokenize(text)
     sent_value = score_sentences(sent,freq_table)
