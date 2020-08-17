@@ -1,18 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Aug 16 18:56:41 2020
-
-@author: shrir
-"""
-
-
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Aug 16 18:21:29 2020
-
-@author: shrir
-"""
-
 from nltk.tokenize import sent_tokenize
 import torch
 from pytorch_pretrained_bert import BertTokenizer, BertModel
@@ -21,15 +6,6 @@ from sklearn.metrics import pairwise_distances_argmin_min
 import numpy as np
 
 def bertSent_embeding(sentences):
-    """
-    Input a list of sentence tokens
-    
-    Output a list of latent vectors, each vector is a sentence representation
-    
-    Note: Bert model produce 12 layers of latent vector, the 'last layer' method is used here,
-          other choices includes average last 4 layers, average all layers, etc.
-    
-    """
     ## Add sentence head and tail as BERT requested
     marked_sent = ["[CLS] " +item + " [SEP]" for item in sentences]
     
@@ -68,14 +44,6 @@ def bertSent_embeding(sentences):
     return sentence_embedding_list
 
 def kmeans_sumIndex(sentence_embedding_list):
-    """
-    Input a list of embeded sentence vectors
-    
-    Output an list of indices of sentence in the paragraph, represent the clustering of key sentences
-    
-    Note: Kmeans is used here for clustering
-        
-    """
     n_clusters = np.ceil(len(sentence_embedding_list)**0.5)
     kmeans = KMeans(n_clusters=int(n_clusters))
     kmeans = kmeans.fit(sentence_embedding_list)
@@ -88,11 +56,6 @@ def kmeans_sumIndex(sentence_embedding_list):
 
 
 def bertSummarize(text):
-    """
-    Input a paragraph as string
-    
-    Output the summary including a few key sentences using BERT sentence embedding and clustering
-    """
     sentences = sent_tokenize(text)
     
     sentence_embedding_list = bertSent_embeding(sentences)
