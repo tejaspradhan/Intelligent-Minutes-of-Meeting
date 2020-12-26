@@ -12,6 +12,7 @@ def get_transcripts(video_url):
     video_id = query[2:]
 
     # Getting the transcripts
+    
     YouTubeTranscriptApi.get_transcript(video_id)
 
     transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
